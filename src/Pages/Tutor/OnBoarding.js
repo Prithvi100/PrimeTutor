@@ -63,14 +63,16 @@ const OnBoarding = () => {
     }
   }, []);
 
-  const upload = () => {
+  const upload = async () => {
     const metadata = {
       contentType: "image/jpeg",
     };
-
+    console.log(file);
     // Upload file and metadata to the object 'images/mountains.jpg'
     const storageRef = ref(storage, "images/" + file.name);
-    const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+    const newFile2 = await fetch(file.uri);
+    const blob = await newFile2.blob();
+    const uploadTask = uploadBytesResumable(storageRef, blob, metadata);
 
     // Listen for state changes, errors, and completion of the upload.
     uploadTask.on(
@@ -203,6 +205,9 @@ const OnBoarding = () => {
             <div className="row mb-4 g-4">
               <div className="col-12">
                 <div className="form-group">
+                  <h6 style={{ textAlign: "left", fontWeight: 500 }}>
+                    Upload your Profile Picture
+                  </h6>
                   <input
                     className="bg-white text-dark px-5 py-4 w-100 border rounded-1"
                     style={{ borderRadius: "3px" }}
@@ -258,6 +263,9 @@ const OnBoarding = () => {
 
               <div className="col-12">
                 <div className="form-group">
+                  <h6 style={{ textAlign: "left", fontWeight: 500 }}>
+                    Upload your Latest Resume
+                  </h6>
                   <input
                     className="bg-white text-dark px-5 py-4 w-100 border rounded-1"
                     style={{ borderRadius: "3px" }}
@@ -272,6 +280,9 @@ const OnBoarding = () => {
 
               <div className="col-12">
                 <div className="form-group">
+                  <h6 style={{ textAlign: "left", fontWeight: 500 }}>
+                    What subject would you like to Tutor?
+                  </h6>
                   <Dropdown
                     isOpen={dropdownOpen}
                     toggle={toggle}
@@ -305,29 +316,39 @@ const OnBoarding = () => {
                   </Dropdown>
                 </div>
               </div>
+
               <div className="col-12">
-                {category &&
-                  config?.[category]?.map((i) => {
-                    return (
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={subCategory.includes(i)}
-                            onChange={(event) => {
-                              if (event.target.checked) {
-                                setSubCategory([...subCategory, i]);
-                              } else {
-                                const data = subCategory.filter((x) => x !== i);
-                                console.log(data);
-                              }
-                            }}
-                            name="checkedA"
-                          />
-                        }
-                        label={i}
-                      />
-                    );
-                  })}
+                {config?.[category]?.length > 0 && (
+                  <div>
+                    <h6 style={{ textAlign: "center", fontWeight: 500 }}>
+                      Subcategories:
+                    </h6>
+                    {config?.[category]?.map((i) => {
+                      return (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={subCategory.includes(i)}
+                              onChange={(event) => {
+                                if (event.target.checked) {
+                                  setSubCategory([...subCategory, i]);
+                                } else {
+                                  const data = subCategory;
+                                  const newData = data.filter((x) => {
+                                    return x !== i;
+                                  });
+                                  setSubCategory([...newData]);
+                                }
+                              }}
+                              name="checkedA"
+                            />
+                          }
+                          label={i}
+                        />
+                      );
+                    })}
+                  </div>
+                )}
               </div>
               <div className="col-12">
                 <div className="form-group">
