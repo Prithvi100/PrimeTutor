@@ -1,0 +1,31 @@
+.navbar-section {
+    background: linear-gradient(112.84deg, #FFFFFF 0.33%, #EEDFEF 100%)
+}
+.free-trial {
+    padding:2px; background: linear-gradient(90deg, rgba(108,213,246,1 ) 0%, rgba(248,157,92,1) 50%, rgba(91,106,240,1) 100%)
+}
+
+.tutor-button {
+    overflow: auto
+  }
+  .img-logo {
+    width: 175px;
+    height: 120px
+  }
+  #img-style {
+    width: 120px
+  }
+  /* .img-sizing {
+    width: 300px
+  }
+  #img-size {
+    width: 250px
+  }
+  #img-size.#img-stuff.img-thing {
+    width: 1000px
+  }
+  #new-size {
+    width: 100px
+  } */
+  
+  

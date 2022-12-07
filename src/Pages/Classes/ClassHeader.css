@@ -1,0 +1,9 @@
+.ClassHeader {
+  display: flex;
+  margin-top: 60px;
+}
+
+.header_center {
+  display: flex;
+  align-items: center;
+}

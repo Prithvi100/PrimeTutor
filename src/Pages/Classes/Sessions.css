@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+}
+
+
+.categories {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  gap: 1rem;
+  padding-top: 1rem;
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.category {
+  background-color: #ffeec8;
+}
+
+.category:hover {
+  background-color:  #dfd0af;
+}

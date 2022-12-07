@@ -1,0 +1,6 @@
+.CourseList {
+  border: 1px solid black;
+  flex: 0.8;
+  background-color: white;
+  padding: 0;
+}
