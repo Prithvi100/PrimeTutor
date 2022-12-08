@@ -4,9 +4,9 @@ import "./App.css";
 import { UserProvider } from "./context/UserContext";
 import ForgotPassword from "./ForgotPassword";
 import CourseScreen from "./Pages/Classes/CourseScreens/CourseScreen";
-import SearchComponent from "./Pages/Classes/SearchComponent";
 import SearchResult from "./Pages/Classes/SearchResult";
 import Sessions from "./Pages/Classes/Sessions";
+import TeacherCard from "./Pages/Classes/TeacherCard";
 //import GuruLogin from "./Pages/Guru/GuruLogin";
 //import GuruQuestion from "./Pages/Guru/GuruQuestion";
 import HeroSection from "./Pages/hero-section/HeroSection";
@@ -41,11 +41,7 @@ function App() {
 
           <Route path="/OnBoarding" exact element={<OnBoarding />} />
           <Route path="/Dashboard" exact element={<Dashboard />} />
-          <Route
-            path="/Classes/SearchComponent"
-            exact
-            element={<SearchComponent />}
-          />
+          <Route path="/Classes/TeacherCard" exact element={<TeacherCard />} />
           <Route
             path="/Classes/SearchResult"
             exact

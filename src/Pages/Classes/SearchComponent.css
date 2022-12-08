@@ -1,3 +1,10 @@
+.searchPage{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+
+}
 .searchPage__info {
   padding: 20px;
 }

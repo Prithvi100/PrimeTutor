@@ -8,8 +8,8 @@ import UserContext from "../../context/UserContext";
 import { BASE_API_URL } from "../../utils/constants";
 import { db } from "../../utils/Firebase";
 import ClassHeader from "./ClassHeader";
-import SearchComponent from "./SearchComponent";
 import "./Sessions.css";
+import TeacherCard from "./TeacherCard";
 // // Import Swiper React components
 // import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -77,9 +77,9 @@ const Sessions = (props) => {
   return (
     <div className={classes.root}>
       <ClassHeader />
-      <h1>
+      <h2>
         <center>Learn from the Best</center>
-      </h1>
+      </h2>
       {/* <Swiper
         spaceBetween={50}
         slidesPerView={3}
@@ -112,7 +112,7 @@ const Sessions = (props) => {
           </li>
         ))}
       </ul>
-      <SearchComponent
+      <TeacherCard
         {...props}
         tutors={tutors}
         selectedCategories={selectedCategories}
