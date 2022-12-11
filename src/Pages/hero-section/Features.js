@@ -12,7 +12,7 @@ const Features = () => {
                 {/* insert image here */}
                 <img
                   class="img-fluid"
-                  src="gradia-assets/images/features/dropdown.png"
+                  src="https://images.unsplash.com/photo-1616400619175-5beda3a17896?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHN0dWR5fGVufDB8fDB8fA%3D%3D&w=1000&q=80"
                   alt=""
                 />
               </div>

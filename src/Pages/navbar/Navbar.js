@@ -80,7 +80,7 @@ const Navbar = () => {
                       }}
                     >
                       <span className="fs-17 fw-medium text-secondary mb-0">
-                        For Tutors
+                        Tutor with Us
                       </span>
                     </button>
                   )}
