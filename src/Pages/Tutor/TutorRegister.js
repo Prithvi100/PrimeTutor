@@ -104,7 +104,7 @@ const TutorRegister = () => {
               alt=""
             />
           </a>
-          <h2 className="fs-10 mb-10">Educate and Earn</h2>
+          <h2 className="fs-10 mb-10">Got Knowledge? Monetize it</h2>
 
           <form className="mw-md-lg mx-auto" onSubmit={handleOnSubmit}>
             {errorMsg && <p style={{ color: "#ff0000" }}>{errorMsg}</p>}

@@ -4,7 +4,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../context/UserContext";
-import Logo from "../../images/logo.png";
+import NewLogo from "../../images/NewLogo.png";
 import NameBlack from "../../logos/gradia-name-black.svg";
 
 import "./navbar.css";
@@ -35,7 +35,7 @@ const Navbar = () => {
         <nav className="navbar navbar-dark navbar-expand-lg bg-transparent py-5 py-lg-3 px-5">
           <div className="container-fluid">
             <a className="navbar-brand" href="/#">
-              <img className="img-fluid img-logo" src={Logo} alt="" />
+              <img className="img-fluid img-logo" src={NewLogo} alt="" />
             </a>
             {!user ? (
               <div className="collapse navbar-collapse ms-11">
@@ -60,11 +60,10 @@ const Navbar = () => {
               <div className="collapse navbar-collapse ms-11">
                 <ul className="navbar-nav">
                   <li className="nav-item p-5">
-                    <a className="nav-link d-inline-block p-0" href="/tutors">
-                      <h3 className="fs-17 fw-medium text-secondary mb-0">
-                        Tutors
-                      </h3>
-                    </a>
+                    <a
+                      className="nav-link d-inline-block p-0"
+                      href="/tutors"
+                    ></a>
                   </li>
                 </ul>
               </div>

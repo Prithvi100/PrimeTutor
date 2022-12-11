@@ -25,7 +25,7 @@ const HeroSection = () => {
           <div className="col-12 col-md-6">
             <div className="mw-md-xl">
               <h2 className="fs-5 mb-6">
-                Learn & Practice with the World's Brightest Minds
+                Learn Fast with the World's Brightest Tutors
               </h2>
 
               <button
