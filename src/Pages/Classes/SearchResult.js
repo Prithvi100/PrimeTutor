@@ -31,7 +31,12 @@ function SearchResult(props) {
       <img
         src={profileImgUrl}
         alt=""
-        style={{ width: 100, height: 100, borderRadius: 50 }}
+        style={{
+          width: 100,
+          height: 100,
+          borderRadius: 50,
+          objectFit: "cover",
+        }}
       />
       {/* <FavoriteBorderIcon className="searchResult__heart" /> */}
 

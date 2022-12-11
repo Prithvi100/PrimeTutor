@@ -42,16 +42,24 @@ const OnBoarding = () => {
   const [category, setCategory] = useState("");
   const [subCategory, setSubCategory] = useState([]);
   const [file, setFile] = useState(null);
-  const [profileUrl, setProfileUrl] = useState("");
+  const [resumeFile, setResumeFile] = useState(null);
+  const [profileUrl, setProfileUrl] = useState(null);
+  const [resumeUrl, setResumeUrl] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
   useEffect(() => {
     if (file) {
-      upload();
+      upload({ file: true });
     }
   }, [file]);
+
+  useEffect(() => {
+    if (resumeFile) {
+      upload({ resume: true });
+    }
+  }, [resumeFile]);
 
   useEffect(() => {
     if (!user) {
@@ -63,18 +71,23 @@ const OnBoarding = () => {
     }
   }, []);
 
-  const upload = async () => {
-    const metadata = {
-      contentType: "image/jpeg",
-    };
-    console.log(file);
-    // Upload file and metadata to the object 'images/mountains.jpg'
-    const storageRef = ref(storage, "images/" + file.name);
-    const newFile2 = await fetch(file.uri);
-    const blob = await newFile2.blob();
-    const uploadTask = uploadBytesResumable(storageRef, blob, metadata);
+  const upload = async (data) => {
+    let storageRef;
+    let uploadTask;
+    if (data?.file) {
+      console.log(file);
+      // Upload file and metadata to the object 'images/mountains.jpg'
+      storageRef = ref(storage, "images/" + file.name);
+      uploadTask = uploadBytesResumable(storageRef, file);
+      // Listen for state changes, errors, and completion of the upload.
+    } else if (data?.resume) {
+      console.log(resumeFile);
+      // Upload resumeFile and metadata to the object 'images/mountains.jpg'
+      storageRef = ref(storage, "resume/" + resumeFile.name);
+      uploadTask = uploadBytesResumable(storageRef, resumeFile);
+      // Listen for state changes, errors, and completion of the upload.
+    }
 
-    // Listen for state changes, errors, and completion of the upload.
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -114,7 +127,11 @@ const OnBoarding = () => {
         // Upload completed successfully, now we can get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log("File available at", downloadURL);
-          setProfileUrl(downloadURL);
+          if (data?.file) {
+            setProfileUrl(downloadURL);
+          } else if (data?.resume) {
+            setResumeUrl(downloadURL);
+          }
         });
       }
     );
@@ -163,10 +180,8 @@ const OnBoarding = () => {
       tutorId: user.userId,
       tutorName: user.name,
       tutorEmail: user.email,
-      profileImgUrl:
-        "https://firebasestorage.googleapis.com/v0/b/trojanmind-web.appspot.com/o/Screen%20Shot%202022-11-28%20at%203.57.24%20PM.png?alt=media&token=75f04dd4-6b44-4e9a-aad4-542bbb77d88f",
-      resumeUrl:
-        "https://firebasestorage.googleapis.com/v0/b/trojanmind-web.appspot.com/o/HiezelGamurotAbril.docx?alt=media&token=cdbf0fd7-8424-4e04-945b-b925660daa8d",
+      profileImgUrl: profileUrl,
+      resumeUrl: resumeUrl,
       rating: 0,
       status: "pending",
       createdAt: new Date(),
@@ -191,15 +206,28 @@ const OnBoarding = () => {
     <section className="position-relative pb-36 bg-gradient-gray2 overflow-hidden login-section">
       <div className="position-relative container" style={{ zIndex: "50" }}>
         <div className="text-center">
-          <a className="d-inline-block mb-40" href="/#">
+          {/* <a className="d-inline-block mb-40" href="/#">
             <img
               className="img-fluid #img-size 3 #new-size"
               src="images/Screen-Shot-2022-11-16-at-6-43-59-PM.png"
               alt=""
             />
-          </a>
-          <h2 className="fs-10 mb-10">Complete Your Tutor Profile</h2>
+          </a> */}
+          <h2 className="fs-10 mb-10 mt-10">Complete Your Tutor Profile</h2>
 
+          {profileUrl && (
+            <img
+              className="img-fluid #img-size 2 #new-size"
+              style={{
+                width: 150,
+                borderRadius: "50%",
+                margin: 10,
+                objectFit: "contain",
+              }}
+              src={profileUrl}
+              alt=""
+            />
+          )}
           <form className="mw-md-lg mx-auto" onSubmit={handleOnSubmit}>
             {errorMsg && <p style={{ color: "#ff0000" }}>{errorMsg}</p>}
             <div className="row mb-4 g-4">
@@ -215,7 +243,7 @@ const OnBoarding = () => {
                     accept="image/*"
                     name="profile"
                     placeholder="Highest Level of Education"
-                    onChange={(e) => setFile(e.target.value)}
+                    onChange={(e) => setFile(e.target.files[0])}
                   />
                 </div>
               </div>
@@ -270,10 +298,10 @@ const OnBoarding = () => {
                     className="bg-white text-dark px-5 py-4 w-100 border rounded-1"
                     style={{ borderRadius: "3px" }}
                     type="file"
-                    accept="image/*"
+                    accept="pdf/*"
                     name="resume"
                     placeholder="Upload Your Resume"
-                    onChange={(e) => setFile(e.target.value)}
+                    onChange={(e) => setResumeFile(e.target.files[0])}
                   />
                 </div>
               </div>

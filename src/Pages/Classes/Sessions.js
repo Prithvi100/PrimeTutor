@@ -1,7 +1,7 @@
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../context/UserContext";
@@ -31,10 +31,15 @@ const useStyles = makeStyles((theme) => ({
 
 const Sessions = (props) => {
   const { config, user, setUser } = useContext(UserContext);
+
+  const [loading, setLoading] = useState(true);
+  const [fLoading, setFLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [tutors, setTutors] = useState([]);
+  const [filteredTutors, setFilteredTutors] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState(null);
   const [filteredCategories, setFilteredCategories] = useState([]);
+
   const classes = useStyles();
   const navigate = useNavigate();
   useEffect(() => {
@@ -73,6 +78,28 @@ const Sessions = (props) => {
     setTutors(tutorData);
     console.log(tutorData);
   };
+
+  const getFilteredData = async (category) => {
+    setFLoading(true);
+    const tutorData = [];
+
+    const q = query(
+      collection(db, "tutor"),
+      where("categories", "==", category)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      tutorData.push({
+        id: doc.id,
+        ...doc.data(),
+      });
+      console.log(`${doc.id} => ${doc.data().name}`);
+    });
+    setFilteredTutors(tutorData);
+    setFLoading(false);
+    console.log(tutorData);
+  };
+
   console.log({ categories });
   return (
     <div className={classes.root}>
@@ -104,6 +131,11 @@ const Sessions = (props) => {
               variant="outlined"
               style={{ borderRadius: "5px", width: 200, height: 80 }}
               onClick={() => {
+                if (selectedCategories === category) {
+                  setSelectedCategories(null);
+                  return;
+                }
+                getFilteredData(category);
                 setSelectedCategories(category);
               }}
             >
@@ -114,8 +146,9 @@ const Sessions = (props) => {
       </ul>
       <TeacherCard
         {...props}
-        tutors={tutors}
-        selectedCategories={selectedCategories}
+        fLoading={fLoading}
+        tutors={selectedCategories ? filteredTutors : tutors}
+        selectedCategorie={selectedCategories}
       />
     </div>
   );
