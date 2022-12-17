@@ -62,11 +62,11 @@ const OnBoarding = () => {
   }, [resumeFile]);
 
   useEffect(() => {
-    if (!user) {
+    if (!user || user?.userType !== "tutor") {
       navigate("/");
       return;
     }
-    if (user?.onBoarded) {
+    if (user?.userType === "tutor" && user?.onBoarded) {
       navigate("/Dashboard");
     }
   }, []);

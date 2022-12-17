@@ -1,7 +1,14 @@
 import { Button } from "@material-ui/core";
+
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
 import axios from "axios";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../context/UserContext";
@@ -39,6 +46,9 @@ const Sessions = (props) => {
   const [filteredTutors, setFilteredTutors] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState(null);
   const [filteredCategories, setFilteredCategories] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [teacherSelected, setSetTeacherSelected] = useState(null);
+  const [message, setMessage] = useState(null);
 
   const classes = useStyles();
   const navigate = useNavigate();
@@ -100,10 +110,83 @@ const Sessions = (props) => {
     console.log(tutorData);
   };
 
-  console.log({ categories });
+  const handleClickOpen = (data) => {
+    console.log(data, "TeacherData");
+    setSetTeacherSelected(data);
+    setOpen(true);
+  };
+
+  const handleClose = (data) => {
+    setOpen(false);
+    setSetTeacherSelected(null);
+    setMessage(null);
+  };
+
+  const handleSubmit = async () => {
+    if (teacherSelected && message) {
+      const docRef = await addDoc(collection(db, "requests"), {
+        message: message,
+        studentId: user.userId,
+        studentName: user.name,
+        studentEmail: user.email,
+        studentImageUrl: user?.profileImgUrl || "",
+        tutorId: teacherSelected.tutorId,
+        tutorName: teacherSelected.tutorName,
+        tutorEmail: teacherSelected.tutorEmail,
+        tutorImageUrl: teacherSelected.profileImgUrl,
+        categories: teacherSelected.categories,
+        status: "pending",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+        .then(async (e) => {
+          handleClose();
+          navigate("/MyRequests");
+        })
+        .catch((error) => {
+          console.log("Error", error);
+        });
+    }
+  };
+
   return (
     <div className={classes.root}>
       <ClassHeader />
+      <div>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">
+            Message this Instructor
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Got a question or want to set up a session? Message this
+              Instructor!
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Your Message"
+              fullWidth
+              onChange={(e) => {
+                setMessage(e.target.value);
+              }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleSubmit} color="primary">
+              Submit
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
       <h2>
         <center>Learn from the Best</center>
       </h2>
@@ -146,6 +229,7 @@ const Sessions = (props) => {
       </ul>
       <TeacherCard
         {...props}
+        handleClickOpen={handleClickOpen}
         fLoading={fLoading}
         tutors={selectedCategories ? filteredTutors : tutors}
         selectedCategorie={selectedCategories}

@@ -170,8 +170,8 @@ const TutorRegister = () => {
               <span>Already have an account? </span>
               <a
                 className="text-secondary"
-                href="/#"
-                onClick={() => navigate("/Login")}
+                href="/Login"
+                // onClick={() => navigate("/Login")}
               >
                 Login
               </a>

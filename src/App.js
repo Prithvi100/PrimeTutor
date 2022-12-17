@@ -13,6 +13,7 @@ import HeroSection from "./Pages/hero-section/HeroSection";
 import Login from "./Pages/login/Login";
 import Navbar from "./Pages/navbar/Navbar";
 import Register from "./Pages/register/Register";
+import MyRequests from "./Pages/Student/MyRequests";
 import Dashboard from "./Pages/Tutor/Dashboard/Dashboard";
 import OnBoarding from "./Pages/Tutor/OnBoarding";
 import TutorRegister from "./Pages/Tutor/TutorRegister";
@@ -38,6 +39,7 @@ function App() {
           <Route path="/TutorRegister" exact element={<TutorRegister />} />
           <Route path="/ForgotPassword" exact element={<ForgotPassword />} />
           <Route path="/Classes" exact element={<Sessions />} />
+          <Route path="/MyRequests" exact element={<MyRequests />} />
 
           <Route path="/OnBoarding" exact element={<OnBoarding />} />
           <Route path="/Dashboard" exact element={<Dashboard />} />

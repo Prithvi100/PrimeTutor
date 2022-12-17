@@ -25,6 +25,8 @@ function TeacherCard(props) {
       {tutors.map((i, index) => {
         return (
           <SearchResult
+            handleClickOpen={props.handleClickOpen}
+            teacherData={i}
             profileImgUrl={i.profileImgUrl}
             tutorName={i.tutorName}
             description={i.description}

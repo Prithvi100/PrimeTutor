@@ -67,6 +67,7 @@ const Register = () => {
           await setDoc(doc(db, "users", newUser.uid), {
             name: user.username,
             email: user.email,
+            profileImgUrl: "",
             userType: "student",
             createdAt: new Date(),
             updatedAt: new Date(),

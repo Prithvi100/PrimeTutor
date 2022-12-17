@@ -1,14 +1,15 @@
 
 
 
-import Table from "../Table/Table";
+import TutorRequests from "../../../TutorRequests";
 import "./MainDash.css";
 const MainDash = () => {
   return (
     <div className="MainDash">
       <h1>Tutor Dashboard</h1>
+      <TutorRequests/>
       {/* <Cards /> */}
-      <Table />
+      {/* <Table /> */}
     </div>
   );
 };

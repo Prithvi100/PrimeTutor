@@ -5,6 +5,7 @@ import "./SearchResult.css";
 function SearchResult(props) {
   console.log({ props });
   const {
+    teacherData,
     tutorName,
     categories,
     hourlyRate,
@@ -14,6 +15,7 @@ function SearchResult(props) {
     profileImgUrl,
     history,
   } = props;
+
   const btnstyle = {
     margin: "9px 0",
     width: 100,
@@ -68,7 +70,13 @@ function SearchResult(props) {
           />
         </div>
         <div>
-          <Button style={{ borderRadius: 50 }} variant="outlined">
+          <Button
+            style={{ borderRadius: 50 }}
+            variant="outlined"
+            onClick={() => {
+              props.handleClickOpen(teacherData);
+            }}
+          >
             Message
           </Button>
         </div>
